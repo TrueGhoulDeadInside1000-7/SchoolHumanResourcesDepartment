@@ -1,0 +1,103 @@
+﻿<Page x:Class="SchoolHumanResourcesDepartment.View.Pages.EmployeesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SchoolHumanResourcesDepartment.View.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="EmployeesPage">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Поиск -->
+        <StackPanel Orientation="Horizontal">
+
+            <TextBlock Text="Поиск:" VerticalAlignment="Center"/>
+
+            <TextBox Name="SearchBox"
+             Width="200"
+             Margin="10 0"
+             TextChanged="Search_TextChanged"/>
+
+            <TextBlock Text="Сортировка:"
+               Margin="20 0 5 0"
+               VerticalAlignment="Center"/>
+
+            <ComboBox Name="SortBox"
+              Width="150"
+              SelectionChanged="Sort_Changed">
+
+                <ComboBoxItem Content="Без сортировки"/>
+                <ComboBoxItem Content="По имени"/>
+                <ComboBoxItem Content="По фамилии"/>
+                <ComboBoxItem Content="По дате приема"/>
+
+            </ComboBox>
+
+        </StackPanel>
+
+        <!-- Кнопки -->
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="1"
+                    Margin="0 0 0 10">
+
+            <Button Content="Добавить"
+                    Width="100"
+                    Margin="5"
+                    Click="Add_Click"/>
+
+            <Button Content="Удалить"
+                    Width="100"
+                    Margin="5"
+                    Click="Delete_Click"/>
+
+        </StackPanel>
+
+        <!-- Таблица -->
+        <ListView Name="EmployeesList"
+                  Grid.Row="2">
+
+            <ListView.View>
+                <GridView>
+
+                    <GridViewColumn Header="ID"
+                                    Width="50"
+                                    DisplayMemberBinding="{Binding Id}"/>
+
+                    <GridViewColumn Header="Имя"
+                                    Width="120"
+                                    DisplayMemberBinding="{Binding FirstName}"/>
+
+                    <GridViewColumn Header="Фамилия"
+                                    Width="120"
+                                    DisplayMemberBinding="{Binding LastName}"/>
+
+                    <GridViewColumn Header="Телефон"
+                                    Width="120"
+                                    DisplayMemberBinding="{Binding Phone}"/>
+
+                    <GridViewColumn Header="Дата приема"
+                                    Width="120"
+                                    DisplayMemberBinding="{Binding HireDate}"/>
+                    <GridViewColumn Header="Отдел"
+                Width="150"
+                DisplayMemberBinding="{Binding Departments.Name}"/>
+
+                    <GridViewColumn Header="Должность"
+                Width="150"
+                DisplayMemberBinding="{Binding Positions.Name}"/>
+
+                </GridView>
+            </ListView.View>
+
+        </ListView>
+
+    </Grid>
+</Page>
