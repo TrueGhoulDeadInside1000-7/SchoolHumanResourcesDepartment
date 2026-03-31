@@ -22,40 +22,68 @@ namespace SchoolHumanResourcesDepartment.View.Windows
     {
         SchoolHumanResourcesDepartmentNormEntities1 db = new SchoolHumanResourcesDepartmentNormEntities1();
 
-        public AddEmployeeWindow()
+        Employees currentEmployee;
+
+        public AddEmployeeWindow(Employees employee = null)
         {
             InitializeComponent();
 
             LoadData();
+
+            currentEmployee = employee;
+
+            if (currentEmployee != null)
+            {
+                FirstNameBox.Text = currentEmployee.FirstName;
+                LastNameBox.Text = currentEmployee.LastName;
+                PhoneBox.Text = currentEmployee.Phone;
+                HireDatePicker.SelectedDate = currentEmployee.HireDate;
+
+                DepartmentBox.SelectedValue = currentEmployee.DepartmentId;
+                PositionBox.SelectedValue = currentEmployee.PositionId;
+            }
         }
 
         void LoadData()
         {
             DepartmentBox.ItemsSource = db.Departments.ToList();
             PositionBox.ItemsSource = db.Positions.ToList();
+
+            DepartmentBox.DisplayMemberPath = "Name";
+            DepartmentBox.SelectedValuePath = "Id";
+
+            PositionBox.DisplayMemberPath = "Name";
+            PositionBox.SelectedValuePath = "Id";
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            Employees employee = new Employees();
+            if (currentEmployee == null)
+            {
+                Employees employee = new Employees();
 
-            employee.FirstName = FirstNameBox.Text;
-            employee.LastName = LastNameBox.Text;
-            employee.Phone = PhoneBox.Text;
-            employee.HireDate = HireDatePicker.SelectedDate;
+                employee.FirstName = FirstNameBox.Text;
+                employee.LastName = LastNameBox.Text;
+                employee.Phone = PhoneBox.Text;
+                employee.HireDate = HireDatePicker.SelectedDate;
+                employee.DepartmentId = (int)DepartmentBox.SelectedValue;
+                employee.PositionId = (int)PositionBox.SelectedValue;
 
-            var department = DepartmentBox.SelectedItem as Departments;
-            var position = PositionBox.SelectedItem as Positions;
+                db.Employees.Add(employee);
+            }
+            else
+            {
+                var emp = db.Employees.Find(currentEmployee.Id);
 
-            if (department != null)
-                employee.DepartmentId = department.Id;
+                emp.FirstName = FirstNameBox.Text;
+                emp.LastName = LastNameBox.Text;
+                emp.Phone = PhoneBox.Text;
+                emp.HireDate = HireDatePicker.SelectedDate;
+                emp.DepartmentId = (int)DepartmentBox.SelectedValue;
+                emp.PositionId = (int)PositionBox.SelectedValue;
+            }
 
-            if (position != null)
-                employee.PositionId = position.Id;
-
-            db.Employees.Add(employee);
             db.SaveChanges();
-
             this.Close();
         }
     }

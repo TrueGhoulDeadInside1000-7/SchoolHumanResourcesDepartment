@@ -87,5 +87,20 @@ namespace SchoolHumanResourcesDepartment.View.Pages
         {
             ApplySort();
         }
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            var employee = EmployeesList.SelectedItem as Employees;
+
+            if (employee == null)
+            {
+                MessageBox.Show("Выберите сотрудника");
+                return;
+            }
+
+            AddEmployeeWindow window = new AddEmployeeWindow(employee);
+            window.ShowDialog();
+
+            LoadEmployees();
+        }
     }
 }
